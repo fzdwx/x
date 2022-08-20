@@ -6,7 +6,7 @@ import (
 )
 
 func TestFluentStringBuilder(t *testing.T) {
-	fmt.Println(NewFluent().Space(4).Write("hello").String())
+	fmt.Println(NewFluent().Space(4).Str("hello").String())
 }
 
 func TestFormatBytes(t *testing.T) {

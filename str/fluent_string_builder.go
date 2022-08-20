@@ -15,6 +15,10 @@ type (
 	WriteFunc func(fluent *FluentStringBuilder)
 )
 
+func (b *FluentStringBuilder) Write(p []byte) (n int, err error) {
+	return b.sb.Write(p)
+}
+
 // NewFluent new fluent string builder
 func NewFluent() *FluentStringBuilder {
 	return &FluentStringBuilder{
@@ -24,29 +28,29 @@ func NewFluent() *FluentStringBuilder {
 
 // NewLine append NewLine
 func (b *FluentStringBuilder) NewLine() *FluentStringBuilder {
-	return b.Write(NewLine)
+	return b.Str(NewLine)
 }
 
 // Space append Space
 func (b *FluentStringBuilder) Space(times ...int) *FluentStringBuilder {
-	return b.Write(RepeatSpace(times...))
+	return b.Str(RepeatSpace(times...))
 }
 
-// Write append string
-func (b *FluentStringBuilder) Write(s string) *FluentStringBuilder {
+// Str append string
+func (b *FluentStringBuilder) Str(s string) *FluentStringBuilder {
 	_, _ = b.sb.WriteString(s)
 	return b
 }
 
 // Brackets wrap ( s )
 func (b *FluentStringBuilder) Brackets(s string) *FluentStringBuilder {
-	b.Write("(").Write(s).Write(")")
+	b.Str("(").Str(s).Str(")")
 	return b
 }
 
 // WrapSpace " " + s + " "
 func (b *FluentStringBuilder) WrapSpace(s string) *FluentStringBuilder {
-	b.Write(WrapSpace(s))
+	b.Str(WrapSpace(s))
 	return b
 }
 
@@ -63,7 +67,7 @@ func (b *FluentStringBuilder) WithSlice(slice []string, mapper func(idx int, ite
 	}
 
 	for i, s := range slice {
-		b.Write(mapper(i, s))
+		b.Str(mapper(i, s))
 	}
 
 	return b
@@ -73,14 +77,14 @@ func (b *FluentStringBuilder) Join(str []string, seq string) *FluentStringBuilde
 	if len(str) == 0 {
 		return b
 	}
-	return b.Write(strings.Join(str, seq))
+	return b.Str(strings.Join(str, seq))
 }
 
 func (b *FluentStringBuilder) Bool(value bool) *FluentStringBuilder {
 	if value {
-		b.Write("true")
+		b.Str("true")
 	} else {
-		b.Write("false")
+		b.Str("false")
 	}
 	return b
 }
