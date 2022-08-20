@@ -84,26 +84,13 @@ func (b *FluentStringBuilder) Join(str []string, seq string) *FluentStringBuilde
 // Joins concatenates the elements of its first argument to create a single string. The separator
 // string sep is placed between elements in the resulting string.
 func (b *FluentStringBuilder) Joins(elems []fmt.Stringer, sep string) *FluentStringBuilder {
-	switch len(elems) {
-	case 0:
-		return b
-	case 1:
-		return b.Str(elems[0].String())
-	}
-	n := len(sep) * (len(elems) - 1)
+	var strs []string
+
 	for i := 0; i < len(elems); i++ {
-		n += len(elems[i].String())
+		strs = append(strs, elems[i].String())
 	}
 
-	b.sb.Grow(n)
-	b.sb.WriteString(elems[0].String())
-
-	for _, s := range elems[1:] {
-		b.sb.WriteString(sep)
-		b.sb.WriteString(s.String())
-	}
-
-	return b
+	return b.Join(strs, sep)
 }
 
 func (b *FluentStringBuilder) Bool(value bool) *FluentStringBuilder {
