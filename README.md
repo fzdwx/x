@@ -1,2 +1,2 @@
 # x
-golnag pkg
+golang pkg
