@@ -1,7 +1,6 @@
 package str
 
 import (
-	"github.com/fzdwx/infinite/style"
 	"strings"
 )
 
@@ -75,15 +74,6 @@ func (b *FluentStringBuilder) Join(str []string, seq string) *FluentStringBuilde
 		return b
 	}
 	return b.Write(strings.Join(str, seq))
-}
-
-func (b *FluentStringBuilder) Style(style *style.Style, val string) *FluentStringBuilder {
-	if len(val) == 0 {
-		return b
-	}
-
-	b.Write(style.Render(val))
-	return b
 }
 
 func (b *FluentStringBuilder) Bool(value bool) *FluentStringBuilder {
