@@ -43,6 +43,14 @@ func (b *FluentStringBuilder) Str(s string) *FluentStringBuilder {
 	return b
 }
 
+// Strp append string
+func (b *FluentStringBuilder) Strp(s *string) *FluentStringBuilder {
+	if s != nil {
+		b.Str(*s)
+	}
+	return b
+}
+
 // Brackets wrap ( s )
 func (b *FluentStringBuilder) Brackets(s string) *FluentStringBuilder {
 	b.Str("(").Str(s).Str(")")
