@@ -1,6 +1,7 @@
 package str
 
 import (
+	"fmt"
 	"strings"
 )
 
@@ -78,6 +79,18 @@ func (b *FluentStringBuilder) Join(str []string, seq string) *FluentStringBuilde
 		return b
 	}
 	return b.Str(strings.Join(str, seq))
+}
+
+// Joins concatenates the elements of its first argument to create a single string. The separator
+// string sep is placed between elements in the resulting string.
+func (b *FluentStringBuilder) Joins(elems []fmt.Stringer, sep string) *FluentStringBuilder {
+	var strs []string
+
+	for i := 0; i < len(elems); i++ {
+		strs = append(strs, elems[i].String())
+	}
+
+	return b.Join(strs, sep)
 }
 
 func (b *FluentStringBuilder) Bool(value bool) *FluentStringBuilder {
