@@ -43,6 +43,35 @@ func FormatBytes(bytes int64) string {
 	return fmt.Sprintf("%s%s", result, unit)
 }
 
+const (
+	Pass = 1
+	K    = 1000 * Pass
+	M    = K * 10
+)
+
+// FormatNumber format number unit
+func FormatNumber(number int64) string {
+	unit := ""
+	value := float32(number)
+
+	switch {
+
+	case number >= M:
+		unit = "m"
+		value = value / M
+	case number >= K:
+		unit = "k"
+		value = value / K
+	case number == 0:
+		return "0"
+
+	}
+
+	result := fmt.Sprintf("%.1f", value)
+	result = strings.TrimSuffix(result, ".00")
+	return fmt.Sprintf("%s%s", result, unit)
+}
+
 // Substring source[start:end)
 func Substring(source string, start int, end int) string {
 	var r = []rune(source)

@@ -5,6 +5,14 @@ import (
 	"testing"
 )
 
+func TestK(t *testing.T) {
+	fmt.Println(FormatNumber(999))
+	fmt.Println(FormatNumber(1000))
+	fmt.Println(FormatNumber(1024))
+	fmt.Println(FormatNumber(1124))
+	fmt.Println(FormatNumber(1524))
+}
+
 func TestFluentStringBuilder(t *testing.T) {
 	fmt.Println(NewFluent().Space(4).Str("hello").String())
 }
