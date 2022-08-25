@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"time"
 )
 
 const (
@@ -101,6 +102,22 @@ func Substring(source string, start int, end int) string {
 	}
 
 	return substring
+}
+
+func FuzzyAgoAbbr(now time.Time, createdAt time.Time) string {
+	ago := now.Sub(createdAt)
+
+	if ago < time.Hour {
+		return fmt.Sprintf("%d%s", int(ago.Minutes()), "m")
+	}
+	if ago < 24*time.Hour {
+		return fmt.Sprintf("%d%s", int(ago.Hours()), "h")
+	}
+	if ago < 30*24*time.Hour {
+		return fmt.Sprintf("%d%s", int(ago.Hours())/24, "d")
+	}
+
+	return createdAt.Format("Jan _2, 2006")
 }
 
 // Truncate truncate string
