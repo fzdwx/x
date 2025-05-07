@@ -19,19 +19,25 @@ type Node interface {
 // nodes: 节点列表
 // 如果节点列表为空，则返回 nil
 // 如果pid为0，则表示根节点, 最后如果没有找到根节点，则第一个节点为根节点
-func BuildTree(nodes []Node) *Tree {
+func BuildTree[T Node](nodes []T) *Tree {
 	if len(nodes) == 0 {
 		return nil
 	}
 
+	// 转换为Node接口切片，方便在返回的Tree中统一处理
+	nodeInterfaces := make([]Node, len(nodes))
+	for i := range nodes {
+		nodeInterfaces[i] = nodes[i]
+	}
+
 	nodesMap := make(map[int64]Node)
-	for _, node := range nodes {
+	for _, node := range nodeInterfaces {
 		nodesMap[node.GetID()] = node
 	}
 
 	var root Node
 	childrenMap := make(map[int64][]Node)
-	for _, node := range nodes {
+	for _, node := range nodeInterfaces {
 		if node.GetParentID() == 0 {
 			root = node
 		} else {
@@ -39,8 +45,8 @@ func BuildTree(nodes []Node) *Tree {
 		}
 	}
 
-	if root == nil && len(childrenMap) > 0 {
-		root = nodes[0]
+	if root == nil && len(nodeInterfaces) > 0 {
+		root = nodeInterfaces[0]
 	}
 
 	return buildTreeRecursion(root, childrenMap)

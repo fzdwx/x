@@ -42,12 +42,13 @@ var data = `
 `
 
 func TestCase1(t *testing.T) {
-	var nodes []MyNode
-	if err := json.Unmarshal([]byte(data), &nodes); err != nil {
+	var myNodes []*MyNode
+	if err := json.Unmarshal([]byte(data), &myNodes); err != nil {
 		t.Fatal(err)
 	}
 
-	tree := BuildTree(nodes)
+	tree := BuildTree[*MyNode](myNodes)
 	if tree == nil {
+		t.Fatal("tree is nil")
 	}
 }
